@@ -1,75 +1,7 @@
 /* =========================
-    Global Variables
+    Variables
 ========================= */
-:root {
-  /* base */
-  --color-bg: #f8f8f0;
-  --color-surface: #fcfcf8;
-  --color-surface-alt: #efefe8;
-  --color-border: rgba(0, 0, 0, 0.2);
-
-  /* text */
-  --color-text-primary: #333333;
-  --color-text-secondary: #666666;
-  --color-text-disabled: #999999;
-  --color-text-on-primary: #ffffff;
-
-  /* brand / action */
-  --color-primary: #005f6b;
-  --color-primary-hover: #004c57;
-  --color-secondary: #0097B9;
-
-  /* state */
-  --color-success: #2e7d32;
-  --color-warning: #ed6c02;
-  --color-error: #d32f2f;
-  --color-focus-ring: rgba(0, 151, 185, 0.4);
-
-  /* editor (input) */
-  --color-input-bg: var(--color-surface);
-  --color-input-border: var(--color-border);
-  --color-input-text: var(--color-text-primary);
-  --color-input-placeholder: var(--color-text-disabled);
-
-  /* preview */
-  --color-preview-bg: var(--color-surface-alt);
-  --color-preview-text: var(--color-text-primary);
-
-  /* typography */
-  --font-family-base:
-    'Fira Code', 'Fira Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-  --font-size-base: 16px;
-  --line-height-base: 1.6;
-
-  /* spacing */
-  --spacing-base: 1rem;
-
-  /* destructive / danger */
-  --color-danger: #d32f2f;
-  --color-danger-hover: #b71c1c;
-  --color-danger-text: #ffffff;
-  --color-danger-border: transparent;
-}
-
-/* =========================
-    Dark Theme
-========================= */
-[data-theme='dark'] {
-  --color-bg: #1e1e1e;
-  --color-surface: #2a2a2a;
-  --color-surface-alt: #1f1f1f;
-  --color-border: rgba(255, 255, 255, 0.2);
-
-  --color-text-primary: #f1f1f1;
-  --color-text-secondary: #bbbbbb;
-  --color-text-disabled: #777777;
-
-  --color-input-bg: #2a2a2a;
-  --color-preview-bg: #1f1f1f;
-
-  --color-danger: #ef5350;
-  --color-danger-hover: #e53935;
-}
+@import './variables.css';
 
 /* =========================
    Reset / Base
@@ -89,9 +21,9 @@ body,
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
-  line-height: var(--line-height-base);
+  line-height: var(--line-height-relaxed);
 }

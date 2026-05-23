@@ -16,29 +16,29 @@ import AppFooter from '@/components/Footer.vue'
 <style scoped>
 .app-container {
   min-height: 100vh;
-  background-color: var(--color-bg);
-  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  color: var(--color-text);
   display: flex;
   flex-direction: column;
 }
 
 .header {
   background-color: var(--color-primary);
-  color: #fff;
-  padding: var(--spacing-base);
+  color: var(--color-on-primary);
+  padding: var(--space-4);
 }
 
 .content {
   flex: 1;
-  padding: var(--spacing-base);
+  padding: var(--space-4);
 }
 
 .footer {
   bottom: 0;
   width: 100%;
   background-color: var(--color-primary);
-  color: #fff;
+  color: var(--color-on-primary);
   text-align: center;
-  padding: calc(var(--spacing-base) / 2);
+  padding: var(--space-2);
 }
 </style>
