@@ -1,11 +1,11 @@
 import {
   boolean,
-  index,
   integer,
   jsonb,
   pgSchema,
   pgTable,
   primaryKey,
+  uniqueIndex,
   text,
   timestamp,
 } from 'drizzle-orm/pg-core'
@@ -56,7 +56,12 @@ export const account = authSchema.table('account', {
   password: text('password'),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow(),
-})
+}, (table) => ({
+  providerAccountUnique: uniqueIndex('auth_account_provider_id_account_id_unique').on(
+    table.providerId,
+    table.accountId,
+  ),
+}))
 
 export const verification = authSchema.table('verification', {
   id: text('id').primaryKey(),
