@@ -1,32 +1,31 @@
+import { SessionResponseSchema, type User } from '@app-template/shared'
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import type { User } from '@app-template/shared'
+import { computed, ref } from 'vue'
 import { authClient } from '@/lib/auth.js'
 
 /**
- * 認証ストア
- * ユーザーのセッション状態を管理
+ * 認証状態を管理するストアです。
+ * 共有スキーマを使って Better Auth のレスポンスを安全に読み取ります。
  */
-
 export const useAuthStore = defineStore('auth', () => {
   const user = ref<User | null>(null)
   const loading = ref(false)
   const error = ref<string | null>(null)
 
-  // セッション状態を同期
   const isAuthenticated = computed(() => !!user.value)
-
   const currentUser = computed(() => user.value)
 
   const initSession = async () => {
     loading.value = true
     try {
       const response = await authClient.getSession()
-      // Better Auth のレスポンス構造: { data: { user, session } } または { error }
-      if (response && typeof response === 'object') {
-        const sessionData = 'data' in response ? response.data : response
-        user.value = (sessionData && 'user' in sessionData) ? sessionData.user : null
-      }
+      const sessionResult = SessionResponseSchema.safeParse(
+        response && typeof response === 'object' && 'data' in response
+          ? response.data
+          : response,
+      )
+
+      user.value = sessionResult.success ? sessionResult.data.user : null
       error.value = null
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to load session'

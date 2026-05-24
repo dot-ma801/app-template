@@ -1,0 +1,47 @@
+import { betterAuth } from 'better-auth'
+import { drizzleAdapter } from 'better-auth/adapters/drizzle'
+import type { Database } from '../database/client.js'
+import * as schema from '../database/schema.js'
+
+export interface CreateAuthOptions {
+  db: Database
+  secret: string
+  baseURL: string
+  trustedOrigin: string
+  googleClientId?: string
+  googleClientSecret?: string
+}
+
+/**
+ * Better Auth の設定をまとめて生成するファクトリです。
+ * 外部依存はここに閉じ込め、上位層はハンドラだけを扱えるようにします。
+ */
+export const createAuth = (options: CreateAuthOptions) => {
+  const socialProviders =
+    options.googleClientId && options.googleClientSecret
+      ? {
+          google: {
+            clientId: options.googleClientId,
+            clientSecret: options.googleClientSecret,
+            disableDefaultScope: true,
+            scope: ['openid', 'email'],
+          },
+        }
+      : {}
+
+  return betterAuth({
+    database: drizzleAdapter(options.db, {
+      provider: 'pg',
+      schema,
+    }),
+    emailAndPassword: {
+      enabled: true,
+    },
+    secret: options.secret,
+    baseURL: options.baseURL,
+    basePath: '/api/auth',
+    trustedOrigins: [options.trustedOrigin],
+    plugins: [],
+    socialProviders,
+  })
+}

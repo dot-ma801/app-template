@@ -1,36 +1,32 @@
 import 'dotenv/config'
 import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
-import { cors } from 'hono/cors'
-import { auth } from './auth.js'
+import { createApp } from './presentation/controller/create-app.js'
+import { createAuth } from './infrastructure/auth/create-auth.js'
+import { createDatabase } from './infrastructure/database/client.js'
+import { loadBackendConfig } from './infrastructure/config/env.js'
 
-const app = new Hono()
+const config = loadBackendConfig(process.env)
+const db = createDatabase(config.databaseUrl)
+const auth = createAuth({
+  db,
+  secret: config.betterAuthSecret,
+  baseURL: config.betterAuthUrl,
+  trustedOrigin: config.frontendOrigin,
+  googleClientId: config.googleClientId,
+  googleClientSecret: config.googleClientSecret,
+})
 
-const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:5173'
+const app = createApp({
+  frontendOrigin: config.frontendOrigin,
+  authHandler: (request) => auth.handler(request),
+})
 
-app.use(
-  '*',
-  cors({
-    origin: frontendOrigin,
-    credentials: true,
-  }),
+serve(
+  {
+    fetch: app.fetch,
+    port: config.port,
+  },
+  (info) => {
+    console.log(`Server is running on http://localhost:${info.port}`)
+  },
 )
-
-// Health check
-app.get('/', (c) => {
-  return c.json({ status: 'ok', message: 'Backend is running' })
-})
-
-// Better Auth routes
-app.on(['POST', 'GET'], '/api/auth/**', (c) => {
-  return auth.handler(c.req.raw)
-})
-
-const port = parseInt(process.env.PORT || '3000', 10)
-
-serve({
-  fetch: app.fetch,
-  port,
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
