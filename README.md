@@ -10,10 +10,13 @@
 - **Frontend**: Vue 3 + TypeScript + Vite
   - ルーティング: Vue Router
   - 状態管理: Pinia
+  - 認証: Better Auth
   - テスト: Vitest (unit) + Playwright (e2e)
   - リント: ESLint (oxlint) + Prettier
 - **Backend**: Hono.js + TypeScript
   - ORM: Drizzle
+  - 認証: Better Auth
+  - DB: PostgreSQL
   - テスト: Vitest
 - **Shared**: 共通型・スキーマ定義 (Zod)
 
@@ -34,7 +37,41 @@ packages/
 pnpm install
 ```
 
-### 2. 開発サーバーの起動
+### 2. PostgreSQL の起動（Docker）
+
+```bash
+docker compose up -d
+```
+
+### 3. データベースマイグレーション
+
+```bash
+cd packages/backend
+
+# マイグレーションファイルを生成
+pnpm db:generate
+
+# マイグレーションを実行
+pnpm db:migrate
+```
+
+### 4. 環境変数の設定
+
+各パッケージの `.env.example` をコピーして `.env` を作成し、必要な値を設定してください。
+
+**Backend** (`packages/backend/.env`):
+```bash
+cp .env.example .env
+# 必要に応じて編集
+```
+
+**Frontend** (`packages/frontend/.env`):
+```bash
+cp .env.example .env
+# 必要に応じて編集
+```
+
+### 5. 開発サーバーの起動
 
 ```bash
 # 全パッケージの開発サーバーを起動
@@ -44,13 +81,13 @@ pnpm dev
 - Frontend: http://localhost:5173
 - Backend: http://localhost:3000
 
-### 3. ビルド
+### 6. ビルド
 
 ```bash
 pnpm build
 ```
 
-### 4. テスト実行
+### 7. テスト実行
 
 ```bash
 # 全パッケージのテストを実行
@@ -122,14 +159,44 @@ pnpm build
 pnpm dev
 ```
 
+## 認証（Better Auth）
+
+このテンプレートには Better Auth によるソーシャルログイン機能が組み込まれています。
+
+### Google OAuth の設定
+
+1. [Google Cloud Console](https://console.cloud.google.com/) でプロジェクトを作成
+2. OAuth 2.0 認証情報を生成
+3. リダイレクト URI に `http://localhost:3000/api/auth/callback/google` を追加
+4. 環境変数を設定：
+
+**Backend** (`packages/backend/.env`):
+```
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+```
+
+5. `packages/backend/src/auth.ts` の `socialProviders` セクションをコメント解除
+
+### 認証 API エンドポイント
+
+- `POST /api/auth/signin/email` — メール/パスワードでログイン
+- `POST /api/auth/signup/email` — メール/パスワードで登録
+- `POST /api/auth/signout` — ログアウト
+- `GET /api/auth/session` — セッション情報取得
+- `POST /api/auth/signin/social` — ソーシャルログイン
+
 ## 環境変数
 
 各パッケージのルートに `.env` ファイルを作成して環境変数を設定してください。
 
 **Backend 例** (`packages/backend/.env`):
 ```
-DATABASE_URL=file:./db.sqlite
+DATABASE_URL=postgresql://app:password@localhost:5432/app_template
 PORT=3000
+BETTER_AUTH_SECRET=your-secret-key-here-change-in-production
+BETTER_AUTH_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:5173
 ```
 
 **Frontend 例** (`packages/frontend/.env`):
