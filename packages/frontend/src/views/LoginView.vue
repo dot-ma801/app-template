@@ -1,9 +1,9 @@
 <template>
   <div class="login-container">
-    <h1>ログイン</h1>
-    
+    <h1>{{ isSignInMode ? 'ログイン' : '新規登録' }}</h1>
+
     <div v-if="authStore.isAuthenticated" class="authenticated">
-      <p>ログイン済み: {{ authStore.currentUser?.email }}</p>
+      <p>ログイン中: {{ authStore.currentUser?.email }}</p>
       <button @click="handleLogout">ログアウト</button>
     </div>
 
@@ -18,12 +18,16 @@
         <input v-model="password" type="password" placeholder="password" />
       </div>
 
-      <button @click="handleSignIn" :disabled="loading">
-        {{ loading ? 'ログイン中...' : 'ログイン' }}
+      <button @click="handleSubmit" :disabled="loading">
+        {{ loading ? (isSignInMode ? 'ログイン中...' : '登録中...') : (isSignInMode ? 'ログイン' : '新規登録') }}
       </button>
 
       <button @click="handleGoogleSignIn" :disabled="loading" class="google-btn">
         Google でログイン
+      </button>
+
+      <button @click="toggleMode" :disabled="loading" class="secondary-btn">
+        {{ isSignInMode ? 'アカウントを作成する' : 'ログインに戻る' }}
       </button>
 
       <p v-if="error" class="error">{{ error }}</p>
@@ -32,29 +36,49 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
-import { authClient, signIn, signOut } from '@/lib/auth'
+import { authClient, signIn, signUp } from '@/lib/auth'
 
 const authStore = useAuthStore()
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const error = ref('')
+const mode = ref<'signin' | 'signup'>('signin')
 
-const handleSignIn = async () => {
+const isSignInMode = computed(() => mode.value === 'signin')
+
+const toggleMode = () => {
+  mode.value = isSignInMode.value ? 'signup' : 'signin'
+  error.value = ''
+}
+
+const handleSubmit = async () => {
   loading.value = true
   error.value = ''
+
   try {
-    const result = await signIn.email({
-      email: email.value,
-      password: password.value,
-    })
+    const result = isSignInMode.value
+      ? await signIn.email({
+          email: email.value,
+          password: password.value,
+        })
+      : await signUp.email({
+          name: email.value,
+          email: email.value,
+          password: password.value,
+        })
+
     if (result) {
       await authStore.initSession()
     }
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'ログインに失敗しました'
+    error.value = err instanceof Error
+      ? err.message
+      : isSignInMode.value
+        ? 'ログインに失敗しました'
+        : '新規登録に失敗しました'
   } finally {
     loading.value = false
   }
@@ -63,8 +87,8 @@ const handleSignIn = async () => {
 const handleGoogleSignIn = async () => {
   loading.value = true
   error.value = ''
+
   try {
-    // Google OAuth リダイレクト
     await authClient.signIn.social({
       provider: 'google',
       callbackURL: `${window.location.origin}/auth/callback`,
@@ -80,7 +104,6 @@ const handleLogout = async () => {
   await authStore.logout()
 }
 
-// マウント時にセッション確認
 authStore.initSession()
 </script>
 
@@ -134,6 +157,14 @@ button:hover:not(:disabled) {
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.secondary-btn {
+  background-color: #6c757d;
+}
+
+.secondary-btn:hover:not(:disabled) {
+  background-color: #5a6268;
 }
 
 .google-btn {
