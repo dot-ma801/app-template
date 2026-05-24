@@ -17,26 +17,24 @@ export const auth = betterAuth({
   secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL || 'http://localhost:3000',
   basePath: '/api/auth',
-  trustedOrigins: [
-    process.env.FRONTEND_URL || 'http://localhost:5173',
-  ],
+  trustedOrigins: [process.env.FRONTEND_URL || 'http://localhost:5173'],
   plugins: [],
-  // ソーシャルログインプロバイダ（オプション）
-  // 以下をコメント解除して使用してください
-  /*
   socialProviders: {
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID || '',
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
-    },
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID || '',
       clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+      disableDefaultScope: true,
+      scope: ['openid', 'email'],
+    },
+    /*
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID || '',
+      clientSecret: process.env.GITHUB_CLIENT_SECRET || '',
     },
     discord: {
       clientId: process.env.DISCORD_CLIENT_ID || '',
       clientSecret: process.env.DISCORD_CLIENT_SECRET || '',
     },
+    */
   },
-  */
 })
