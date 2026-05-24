@@ -1,9 +1,20 @@
 import 'dotenv/config'
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { auth } from './auth.js'
 
 const app = new Hono()
+
+const frontendOrigin = process.env.FRONTEND_URL || 'http://localhost:5173'
+
+app.use(
+  '*',
+  cors({
+    origin: frontendOrigin,
+    credentials: true,
+  }),
+)
 
 // Health check
 app.get('/', (c) => {
