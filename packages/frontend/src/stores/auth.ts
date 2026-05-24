@@ -25,8 +25,13 @@ export const useAuthStore = defineStore('auth', () => {
           : response,
       )
 
-      user.value = sessionResult.success ? sessionResult.data.user : null
-      error.value = null
+      if (sessionResult.success) {
+        user.value = sessionResult.data.user
+        error.value = null
+      } else {
+        user.value = null
+        error.value = sessionResult.error.message
+      }
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to load session'
     } finally {
