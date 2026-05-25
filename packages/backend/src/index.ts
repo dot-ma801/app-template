@@ -1,10 +1,10 @@
 import 'dotenv/config'
 import { serve } from '@hono/node-server'
 import { fileURLToPath } from 'node:url'
-import { createApp } from './presentation/controller/create-app.js'
-import { createAuth } from './infrastructure/auth/create-auth.js'
-import { createDatabase } from './infrastructure/database/client.js'
-import { loadBackendConfig } from './infrastructure/config/env.js'
+import { createApp } from './presentation/controller/create-app'
+import { createAuth } from './infrastructure/auth/create-auth'
+import { createDatabase } from './infrastructure/database/client'
+import { loadBackendConfig } from './infrastructure/config/env'
 
 const config = loadBackendConfig(process.env)
 const db = createDatabase(config.databaseUrl)

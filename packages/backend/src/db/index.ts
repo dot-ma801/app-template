@@ -1,1 +1,1 @@
-export { createDatabase, type Database } from '../infrastructure/database/client.js'
+export { createDatabase, type Database } from '../infrastructure/database/client'
