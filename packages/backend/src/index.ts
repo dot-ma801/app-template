@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import { serve } from '@hono/node-server'
+import { fileURLToPath } from 'node:url'
 import { createApp } from './presentation/controller/create-app.js'
 import { createAuth } from './infrastructure/auth/create-auth.js'
 import { createDatabase } from './infrastructure/database/client.js'
@@ -21,12 +22,18 @@ const app = createApp({
   authHandler: (request) => auth.handler(request),
 })
 
-serve(
-  {
-    fetch: app.fetch,
-    port: config.port,
-  },
-  (info) => {
-    console.log(`Server is running on http://localhost:${info.port}`)
-  },
-)
+export default app
+
+const isDirectExecution = process.argv[1] === fileURLToPath(import.meta.url)
+
+if (isDirectExecution) {
+  serve(
+    {
+      fetch: app.fetch,
+      port: config.port,
+    },
+    (info) => {
+      console.log(`Server is running on http://localhost:${info.port}`)
+    },
+  )
+}
