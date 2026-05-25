@@ -17,11 +17,13 @@
   "dependencies": {
     "@app-template/shared": "workspace:*",
     "@hono/node-server": "^1.19.11",
+    "@hono/vite-build": "^1.11.1",
     "better-auth": "^1.6.11",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.5",
-    "postgres": "^3.4.9"
+    "postgres": "^3.4.9",
+    "vite": "^7.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
