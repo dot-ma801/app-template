@@ -1,18 +1,18 @@
+import { builtinModules } from 'node:module'
 import { defineConfig } from 'vite'
-import { builtinModules } from 'module'
 import honoPreset from '@hono/vite-build/node'
 
 export default defineConfig({
   plugins: [
     honoPreset({
       entry: 'src/index.ts',
-      output: 'dist/index.js',
-    })
+      output: 'index.js',
+      emptyOutDir: true,
+    }),
   ],
   build: {
-    // Node.jsの組み込みモジュール（fs, pathなど）をバンドル対象から外す
     rollupOptions: {
-      external: [...builtinModules, ...builtinModules.map(m => `node:${m}`)],
-    }
-  }
+      external: [...builtinModules, ...builtinModules.map((m) => `node:${m}`)],
+    },
+  },
 })
