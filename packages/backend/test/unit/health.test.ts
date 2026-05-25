@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { HealthResponseSchema } from '@app-template/shared'
-import { getHealth } from '../../src/application/health/get-health.js'
+import { getHealth } from '../../src/application/health/get-health'
 
 describe('getHealth', () => {
   it('共有スキーマに合う疎通確認レスポンスを返す', () => {

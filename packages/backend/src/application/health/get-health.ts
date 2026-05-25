@@ -1,5 +1,5 @@
 import { HealthResponseSchema, type HealthResponse } from '@app-template/shared'
-import { createHealthStatus } from '../../domain/health.js'
+import { createHealthStatus } from '../../domain/health'
 
 /**
  * 疎通確認のユースケースです。

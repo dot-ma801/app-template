@@ -1,9 +1,9 @@
 import type { HealthResponse } from '@app-template/shared'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
-import { getHealth } from '../../application/health/get-health.js'
-import { registerAuthRoute } from './routes/auth-route.js'
-import { registerHealthRoute } from './routes/health-route.js'
+import { getHealth } from '../../application/health/get-health'
+import { registerAuthRoute } from './routes/auth-route'
+import { registerHealthRoute } from './routes/health-route'
 
 export interface CreateAppOptions {
   frontendOrigin: string

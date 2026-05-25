@@ -3,7 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
+    "build": "tsc --noEmit && tsc --noEmit -p tsconfig.node.json && vite build",
     "start": "node dist/index.js",
     "test": "vitest",
     "test:unit": "vitest test/unit",
@@ -17,14 +17,17 @@
   "dependencies": {
     "@app-template/shared": "workspace:*",
     "@hono/node-server": "^1.19.11",
+    "@hono/vite-build": "^1.11.1",
     "better-auth": "^1.6.11",
     "dotenv": "^17.4.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.5",
-    "postgres": "^3.4.9"
+    "postgres": "^3.4.9",
+    "vite": "^7.3.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "@vitest/coverage-v8": "4.0.18",
     "drizzle-kit": "^0.31.10",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3",

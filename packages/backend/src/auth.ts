@@ -1,1 +1,1 @@
-export { createAuth } from './infrastructure/auth/create-auth.js'
+export { createAuth } from './infrastructure/auth/create-auth'
