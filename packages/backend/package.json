@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "@vitest/coverage-v8": "4.0.18",
     "drizzle-kit": "^0.31.10",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3",
