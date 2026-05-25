@@ -1,30 +1,11 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue'
-import { Sun, Moon } from '@lucide/vue'
-import { useThemeStore } from '@/stores/theme'
-
-const themeStore = useThemeStore()
-
-const toggleTheme = () => {
-  themeStore.toggleDark()
-}
-
-watchEffect(() => {
-  document.documentElement.setAttribute(
-    'data-theme',
-    themeStore.currentTheme
-  )
-  localStorage.setItem('theme', themeStore.currentTheme)
-})
+import ThemeSwitchButton from './ui/button/ThemeSwitchButton.vue'
 </script>
 
 <template>
   <header>
     <h1>AppName</h1>
-    <button class="theme-toggle" @click="toggleTheme">
-      <Sun v-if="themeStore.isDark" :size="20" />
-      <Moon v-else :size="20" />
-    </button>
+    <ThemeSwitchButton />
   </header>
 </template>
 
@@ -36,19 +17,11 @@ header {
   display: flex;
   align-items: center;
 }
+
 h1 {
   font-size: 1.5rem;
   color: var(--color-on-primary);
   margin: 0;
   pointer-events: none;
-}
-.theme-toggle {
-  background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
 }
 </style>
