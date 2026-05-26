@@ -16,6 +16,18 @@ export default defineConfigWithVueTs(
     files: ['**/*.{vue,ts,mts,tsx}'],
   },
 
+  {
+    files: ['src/**/*.{vue,ts,mts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['./*', '../*'],
+        },
+      ],
+    },
+  },
+
   ...pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
 

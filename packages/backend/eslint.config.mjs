@@ -8,6 +8,28 @@ export default [
   ...sharedEslintConfig,
   ...sharedTypeScriptEslintConfig,
   {
+    files: ['src/**/*.{ts,mts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['./*', '../*'],
+        },
+      ],
+    },
+  },
+  {
+    files: ['test/**/*.{test,spec}.{ts,mts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: ['./*', '../*', '../../*'],
+        },
+      ],
+    },
+  },
+  {
     ...pluginVitest.configs.recommended,
     files: [
       'test/**/*.{test,spec}.{ts,mts,tsx}',
