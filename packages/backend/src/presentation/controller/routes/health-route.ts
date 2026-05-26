@@ -10,10 +10,7 @@ export interface RegisterHealthRouteOptions {
  * Register the health check route.
  * The shared schema validates the response contract before sending it.
  */
-export const registerHealthRoute = (
-  app: Hono,
-  options: RegisterHealthRouteOptions,
-) => {
+export const registerHealthRoute = (app: Hono, options: RegisterHealthRouteOptions) => {
   app.get('/', (c) => {
     const health = HealthResponseSchema.parse(options.getHealth())
 

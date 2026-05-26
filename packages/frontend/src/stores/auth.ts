@@ -20,9 +20,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       const response = await authClient.getSession()
       const sessionResult = SessionResponseSchema.safeParse(
-        response && typeof response === 'object' && 'data' in response
-          ? response.data
-          : response,
+        response && typeof response === 'object' && 'data' in response ? response.data : response,
       )
 
       if (sessionResult.success) {

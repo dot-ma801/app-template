@@ -5,32 +5,32 @@ description: >
   A calm, practical design system for a text-heavy product with a soft
   off-white light theme, a graphite dark theme, and a restrained blue accent.
 colors:
-  primary: "#005F6B"
-  primary-strong: "#004A53"
-  primary-soft: "#D7ECEE"
-  on-primary: "#FFFFFF"
-  secondary: "#6E7A8A"
-  background: "#F4F5F1"
-  surface: "#FAFAF8"
-  surface-raised: "#F1F2EC"
-  surface-muted: "#E9EBE4"
-  surface-dark: "#25292F"
-  surface-dark-raised: "#2C3138"
-  surface-dark-muted: "#343941"
-  border: "#D4D7CF"
-  border-strong: "#B5BBB1"
-  border-dark: "#434A54"
-  border-dark-strong: "#59616C"
-  text: "#1F2328"
-  text-secondary: "#4E5661"
-  text-muted: "#74808E"
-  text-dark: "#F2F4F7"
-  text-dark-secondary: "#CDD3DA"
-  text-dark-muted: "#929AA5"
-  success: "#2F8A5B"
-  warning: "#C98520"
-  error: "#C94F49"
-  info: "#005F6B"
+  primary: '#005F6B'
+  primary-strong: '#004A53'
+  primary-soft: '#D7ECEE'
+  on-primary: '#FFFFFF'
+  secondary: '#6E7A8A'
+  background: '#F4F5F1'
+  surface: '#FAFAF8'
+  surface-raised: '#F1F2EC'
+  surface-muted: '#E9EBE4'
+  surface-dark: '#25292F'
+  surface-dark-raised: '#2C3138'
+  surface-dark-muted: '#343941'
+  border: '#D4D7CF'
+  border-strong: '#B5BBB1'
+  border-dark: '#434A54'
+  border-dark-strong: '#59616C'
+  text: '#1F2328'
+  text-secondary: '#4E5661'
+  text-muted: '#74808E'
+  text-dark: '#F2F4F7'
+  text-dark-secondary: '#CDD3DA'
+  text-dark-muted: '#929AA5'
+  success: '#2F8A5B'
+  warning: '#C98520'
+  error: '#C94F49'
+  info: '#005F6B'
 typography:
   headline-lg:
     fontFamily: '"Fira Code", "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace'
@@ -82,48 +82,48 @@ spacing:
   xxl: 48px
 components:
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    typography: '{typography.label-md}'
+    rounded: '{rounded.sm}'
     padding: 12px
   button-primary-hover:
-    backgroundColor: "{colors.primary-strong}"
+    backgroundColor: '{colors.primary-strong}'
   button-secondary:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text}'
+    typography: '{typography.label-md}'
+    rounded: '{rounded.sm}'
     padding: 12px
   button-secondary-hover:
-    backgroundColor: "{colors.surface-raised}"
+    backgroundColor: '{colors.surface-raised}'
   button-ghost:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text-secondary}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text-secondary}'
+    typography: '{typography.label-md}'
+    rounded: '{rounded.sm}'
     padding: 12px
   input-text:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text}'
+    typography: '{typography.body-md}'
+    rounded: '{rounded.sm}'
     padding: 12px
   card-surface:
-    backgroundColor: "{colors.surface}"
-    rounded: "{rounded.md}"
+    backgroundColor: '{colors.surface}'
+    rounded: '{rounded.md}'
     padding: 24px
   chip-selected:
-    backgroundColor: "{colors.primary-soft}"
-    textColor: "{colors.text}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.full}"
+    backgroundColor: '{colors.primary-soft}'
+    textColor: '{colors.text}'
+    typography: '{typography.label-md}'
+    rounded: '{rounded.full}'
     padding: 10px
   chip-unselected:
-    backgroundColor: "{colors.surface}"
-    textColor: "{colors.text-secondary}"
-    typography: "{typography.label-md}"
-    rounded: "{rounded.full}"
+    backgroundColor: '{colors.surface}'
+    textColor: '{colors.text-secondary}'
+    typography: '{typography.label-md}'
+    rounded: '{rounded.full}'
     padding: 10px
 ---
 

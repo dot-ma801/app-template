@@ -1,5 +1,6 @@
 :root {
-  --font-family-base: "Fira Code", "Fira Mono", source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  --font-family-base:
+    'Fira Code', 'Fira Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
   --font-size-base: 16px;
 
   --color-primary: #005f6b;
@@ -62,7 +63,7 @@
   color-scheme: light;
 }
 
-:root[data-theme="dark"] {
+:root[data-theme='dark'] {
   color-scheme: dark;
 
   --color-background: var(--color-dark-background);

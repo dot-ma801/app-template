@@ -53,6 +53,9 @@ importers:
       eslint-plugin-oxlint:
         specifier: ~1.50.0
         version: 1.50.0
+      oxlint:
+        specifier: ~1.50.0
+        version: 1.50.0
       tsx:
         specifier: ^4.7.1
         version: 4.21.0

@@ -12,12 +12,5 @@ export const authClient = createAuthClient({
 })
 
 // 主要な認証メソッドをエクスポート
-export const {
-  signUp,
-  signIn,
-  signOut,
-  useSession,
-  getSession,
-  updateUser,
-  changePassword,
-} = authClient
+export const { signUp, signIn, signOut, useSession, getSession, updateUser, changePassword } =
+  authClient

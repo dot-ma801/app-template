@@ -6,7 +6,4 @@ export {
   UserSchema,
   type User,
 } from './auth.js'
-export {
-  HealthResponseSchema,
-  type HealthResponse,
-} from './health.js'
+export { HealthResponseSchema, type HealthResponse } from './health.js'

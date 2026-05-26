@@ -19,7 +19,15 @@
       </div>
 
       <button @click="handleSubmit" :disabled="loading">
-        {{ loading ? (isSignInMode ? 'ログイン中...' : '登録中...') : (isSignInMode ? 'ログイン' : '新規登録') }}
+        {{
+          loading
+            ? isSignInMode
+              ? 'ログイン中...'
+              : '登録中...'
+            : isSignInMode
+              ? 'ログイン'
+              : '新規登録'
+        }}
       </button>
 
       <button @click="handleGoogleSignIn" :disabled="loading" class="google-btn">
@@ -74,11 +82,12 @@ const handleSubmit = async () => {
       await authStore.initSession()
     }
   } catch (err) {
-    error.value = err instanceof Error
-      ? err.message
-      : isSignInMode.value
-        ? 'ログインに失敗しました'
-        : '新規登録に失敗しました'
+    error.value =
+      err instanceof Error
+        ? err.message
+        : isSignInMode.value
+          ? 'ログインに失敗しました'
+          : '新規登録に失敗しました'
   } finally {
     loading.value = false
   }
