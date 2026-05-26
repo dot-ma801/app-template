@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * Better Auth で共有するユーザー情報のスキーマです。
@@ -12,9 +12,9 @@ export const UserSchema = z.object({
   image: z.string().nullable().optional(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type User = z.infer<typeof UserSchema>
+export type User = z.infer<typeof UserSchema>;
 
 /**
  * Better Auth の getSession 系レスポンスを表すスキーマです。
@@ -31,14 +31,14 @@ export const SessionResponseSchema = z.object({
       updatedAt: z.date(),
     })
     .optional(),
-})
+});
 
-export type SessionResponse = z.infer<typeof SessionResponseSchema>
+export type SessionResponse = z.infer<typeof SessionResponseSchema>;
 
 /**
  * 後方互換用のエイリアスです。
  * 既存コードが `SessionSchema` を参照していても壊れないように残します。
  */
-export const SessionSchema = SessionResponseSchema
+export const SessionSchema = SessionResponseSchema;
 
-export type Session = SessionResponse
+export type Session = SessionResponse;

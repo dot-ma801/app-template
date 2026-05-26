@@ -5,5 +5,5 @@ export {
   type SessionResponse,
   UserSchema,
   type User,
-} from './auth.js'
-export { HealthResponseSchema, type HealthResponse } from './health.js'
+} from './auth.js';
+export { HealthResponseSchema, type HealthResponse } from './health.js';

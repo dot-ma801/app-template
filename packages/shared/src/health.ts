@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 /**
  * バックエンドの疎通確認レスポンスを表すスキーマです。
@@ -7,6 +7,6 @@ import { z } from 'zod'
 export const HealthResponseSchema = z.object({
   status: z.literal('ok'),
   message: z.string(),
-})
+});
 
-export type HealthResponse = z.infer<typeof HealthResponseSchema>
+export type HealthResponse = z.infer<typeof HealthResponseSchema>;

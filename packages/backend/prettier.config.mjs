@@ -1,5 +1,5 @@
-import sharedPrettierConfig from '../shared/prettier.config.mjs'
+import sharedPrettierConfig from '../shared/prettier.config.mjs';
 
 export default {
   ...sharedPrettierConfig,
-}
+};

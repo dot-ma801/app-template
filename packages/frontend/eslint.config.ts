@@ -1,9 +1,12 @@
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import pluginVue from 'eslint-plugin-vue'
-import pluginPlaywright from 'eslint-plugin-playwright'
-import pluginVitest from '@vitest/eslint-plugin'
-import pluginOxlint from 'eslint-plugin-oxlint'
-import sharedEslintConfig from '../shared/eslint.config.mjs'
+import {
+  defineConfigWithVueTs,
+  vueTsConfigs,
+} from '@vue/eslint-config-typescript';
+import pluginVue from 'eslint-plugin-vue';
+import pluginPlaywright from 'eslint-plugin-playwright';
+import pluginVitest from '@vitest/eslint-plugin';
+import pluginOxlint from 'eslint-plugin-oxlint';
+import sharedEslintConfig from '../shared/eslint.config.mjs';
 
 export default defineConfigWithVueTs(
   ...sharedEslintConfig,
@@ -27,4 +30,4 @@ export default defineConfigWithVueTs(
   },
 
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
-)
+);
