@@ -1,10 +1,6 @@
 import {
   boolean,
-  integer,
-  jsonb,
   pgSchema,
-  pgTable,
-  primaryKey,
   uniqueIndex,
   text,
   timestamp,
