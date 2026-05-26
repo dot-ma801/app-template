@@ -1,73 +1,98 @@
-# .
+# フロントエンド・アーキテクチャ設計指針
 
-This template should help get you started developing with Vue 3 in Vite.
+本プロジェクトでは、変更に強く、コードの置き場所を見失わないために、「ドメイン知識（ビジネスロジック）の有無」を基準としたディレクトリ構成を採用しています。
 
-## Recommended IDE Setup
+## 依存関係のルール
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+依存の方向は常に **`components (UI)` ← `features` ← `pages`** の一方向です。
 
-## Recommended Browser Setup
+* `components` は `features` や `pages` に依存してはいけません（完全なスタンドアロン）。
+* `features` は `pages` に依存してはいけません。
+* 逆流する依存（例：`components` から `features` のロジックを呼び出すなど）は禁止です。
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+---
 
-## Type Support for `.vue` Imports in TS
+## ディレクトリ構造と役割
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+```
+.
+├── components/       # 【UI】ドメイン知識を持たない、純粋なUIパーツ
+├── features/         # 【機能】業務ロジックや特定のドメイン（User, Cart等）に紐づく関心事
+├── pages/            # 【画面】ルーティングの対象。components や features を組み合わせて画面を構築
+└── composables/      # 【共通ロジック】アプリ全体で使う、ドメイン知識のない汎用フック
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-pnpm install
 ```
 
-### Compile and Hot-Reload for Development
+### 1. components/
 
-```sh
-pnpm dev
+特定の業務ロジックを知らない、**「見た目」と「汎用的なインタラクション」だけを担当する**コンポーネントを配置します。
+
+* **特徴:** 原則として、Propsでデータを受け取り、Emitsでイベントを通知する（外部のAPI通信やグローバルな状態管理には直接触れない）。
+* **主なサブディレクトリ:**
+* `button/`: `BaseButton.vue` など
+* `dialog/`: `BaseDialog.vue`, `DeleteConfirmDialog.vue`（※文脈のない汎用削除ダイアログ）など
+* `layout/`: `Header.vue`, `Footer.vue`（アプリ共通の枠組み）
+* `common/`: `AccordionComponent.vue`, `ColorSelector.vue`（※単に色を選択してemitするだけの実装）など
+
+
+
+### 2. features/
+
+「ユーザー」「カート」「商品」など、**特定の業務ドメインやビジネスロジックを担当する**コードを配置します。コンポーネントだけでなく、その機能専用のロジック（composables）もこの中に閉じ込めます。
+
+* **特徴:** 内部でAPI通信を行ったり、特定の状態（Pinia等）を操作したりしてよい。
+* **構造例:**
+```
+features/
+└── cart/
+    ├── components/
+    │   ├── CartDetail.vue
+    │   ├── CartSummary.vue
+    │   └── AddCartButton.vue  # カート投入APIを呼ぶボタンはここ！
+    └── composables/
+        └── useCart.ts         # カートに関するロジック
+
 ```
 
-### Type-Check, Compile and Minify for Production
+### 3. pages/
+Vue Router（またはNuxt）のマッピング先となる、各画面のルートコンポーネントです。
+原則として、ここでは厚いロジックは書かず、`features` や `components` をパズルのように配置して「画面のレイアウト」を整えることに専念します。
 
-```sh
-pnpm build
+---
+
+## 【開発者向け】コンポーネントの置き場所に迷ったら？
+
+新しいコンポーネントを作る際、どこに置くべきかは以下のフローで判断してください。
+
+
+```mermaid
+flowchart TD
+    Start([新しいコンポーネントの作成]) --> Q1{特定の機能やデータ\nカート、ユーザー等に\n依存しているか？}
+
+    Q1 -- はい --> A1[features/機能名/components/ へ<br>例: AddCartButton]
+    Q1 -- いいえ --> Q2{アプリ共通の枠組み\nヘッダーやフッター\nですか？}
+
+    Q2 -- はい --> A2[components/layout/ へ<br>例: Header, Footer]
+    Q2 -- いいえ --> A3["components/{カテゴリ}/ へ（汎用UI）<br>例: AccordionComponent, BaseButton"]
+
+    style A1 fill:#e1f5fe,stroke:#0288d1,stroke-width:2px
+    style A2 fill:#efebe9,stroke:#5d4037,stroke-width:2px
+    style A3 fill:#efebe9,stroke:#5d4037,stroke-width:2px
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### 具体的な迷いどころFAQ
 
-```sh
-pnpm test:unit
-```
+**Q. `AddCartButton.vue` はボタンだから `components/button/` じゃないの？**
+**A. `features/cart/` に置きます。**
+このボタンは「カートに商品を追加する」という具体的なビジネスロジック（APIを叩く、カートの状態を更新するなど）を知っているため、`features` に属します。実装時は、`features/cart/AddCartButton.vue` の中で、汎用UIである `components/button/BaseButton.vue` を呼び出す形にしてください。
 
-### Run End-to-End Tests with [Playwright](https://playwright.dev)
+**Q. `ColorSelector.vue` はどこ？**
+**A. 仕様（文脈）によって変わります。**
+* 単にカラーコードの配列を受け取って、選ばれた色を `emit` するだけの汎用的なUIパーツなら ──> `components/common/ColorSelector.vue`
+* 「選択された商品の在庫のある色をAPIから取得して表示する」ようなビジネスロジックを含むなら ──> `features/product/components/ColorSelector.vue`
 
-```sh
-# Install browsers for the first run
-npx playwright install
-
-# When testing on CI, must build the project first
-pnpm build
-
-# Runs the end-to-end tests
-pnpm test:e2e
-# Runs the tests only on Chromium
-pnpm test:e2e --project=chromium
-# Runs the tests of a specific file
-pnpm test:e2e tests/example.spec.ts
-# Runs the tests in debug mode
-pnpm test:e2e --debug
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
+**Q. `FileUploadArea.vue`（ドラッグ＆ドロップ領域）はどこ？**
+**A. `components/form/FileUploadArea.vue` に置きます（汎用UI）。**
+このコンポーネント自体は「ファイルが選択されたこと」を `emit` で親に伝えるだけの役割（汎用UI）にします。
+実際に「アップロードされたファイルをAPIに送信する」というビジネスロジックは、このコンポーネントを呼び出す側（例：`features/user/components/UserImportDialog.vue` や 各画面の `pages/`）に記述します。
+これによって、同じアップロード見た目を「ページ直置き」でも「ダイアログ内」でも使い回せるようになります。
