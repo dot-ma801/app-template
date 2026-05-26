@@ -35,6 +35,7 @@
     "@vitest/eslint-plugin": "^1.6.9",
     "drizzle-kit": "^0.31.10",
     "eslint-plugin-oxlint": "~1.50.0",
+    "oxlint": "~1.50.0",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3",
     "vitest": "^4.0.18"
