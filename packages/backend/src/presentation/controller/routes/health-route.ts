@@ -1,9 +1,9 @@
-import type { HealthResponse } from '@app-template/shared'
-import { HealthResponseSchema } from '@app-template/shared'
-import type { Hono } from 'hono'
+import type { HealthResponse } from '@app-template/shared';
+import { HealthResponseSchema } from '@app-template/shared';
+import type { Hono } from 'hono';
 
 export interface RegisterHealthRouteOptions {
-  getHealth: () => HealthResponse
+  getHealth: () => HealthResponse;
 }
 
 /**
@@ -15,8 +15,8 @@ export const registerHealthRoute = (
   options: RegisterHealthRouteOptions,
 ) => {
   app.get('/', (c) => {
-    const health = HealthResponseSchema.parse(options.getHealth())
+    const health = HealthResponseSchema.parse(options.getHealth());
 
-    return c.json(health)
-  })
-}
+    return c.json(health);
+  });
+};

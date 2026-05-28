@@ -6,9 +6,9 @@
 
 依存の方向は常に **`components (UI)` ← `features` ← `pages`** の一方向です。
 
-* `components` は `features` や `pages` に依存してはいけません（完全なスタンドアロン）。
-* `features` は `pages` に依存してはいけません。
-* 逆流する依存（例：`components` から `features` のロジックを呼び出すなど）は禁止です。
+- `components` は `features` や `pages` に依存してはいけません（完全なスタンドアロン）。
+- `features` は `pages` に依存してはいけません。
+- 逆流する依存（例：`components` から `features` のロジックを呼び出すなど）は禁止です。
 
 ---
 
@@ -27,21 +27,20 @@
 
 特定の業務ロジックを知らない、**「見た目」と「汎用的なインタラクション」だけを担当する**コンポーネントを配置します。
 
-* **特徴:** 原則として、Propsでデータを受け取り、Emitsでイベントを通知する（外部のAPI通信やグローバルな状態管理には直接触れない）。
-* **主なサブディレクトリ:**
-* `button/`: `BaseButton.vue` など
-* `dialog/`: `BaseDialog.vue`, `DeleteConfirmDialog.vue`（※文脈のない汎用削除ダイアログ）など
-* `layout/`: `Header.vue`, `Footer.vue`（アプリ共通の枠組み）
-* `common/`: `AccordionComponent.vue`, `ColorSelector.vue`（※単に色を選択してemitするだけの実装）など
-
-
+- **特徴:** 原則として、Propsでデータを受け取り、Emitsでイベントを通知する（外部のAPI通信やグローバルな状態管理には直接触れない）。
+- **主なサブディレクトリ:**
+- `button/`: `BaseButton.vue` など
+- `dialog/`: `BaseDialog.vue`, `DeleteConfirmDialog.vue`（※文脈のない汎用削除ダイアログ）など
+- `layout/`: `Header.vue`, `Footer.vue`（アプリ共通の枠組み）
+- `common/`: `AccordionComponent.vue`, `ColorSelector.vue`（※単に色を選択してemitするだけの実装）など
 
 ### 2. features/
 
 「ユーザー」「カート」「商品」など、**特定の業務ドメインやビジネスロジックを担当する**コードを配置します。コンポーネントだけでなく、その機能専用のロジック（composables）もこの中に閉じ込めます。
 
-* **特徴:** 内部でAPI通信を行ったり、特定の状態（Pinia等）を操作したりしてよい。
-* **構造例:**
+- **特徴:** 内部でAPI通信を行ったり、特定の状態（Pinia等）を操作したりしてよい。
+- **構造例:**
+
 ```
 features/
 └── cart/
@@ -55,6 +54,7 @@ features/
 ```
 
 ### 3. pages/
+
 Vue Router（またはNuxt）のマッピング先となる、各画面のルートコンポーネントです。
 原則として、ここでは厚いロジックは書かず、`features` や `components` をパズルのように配置して「画面のレイアウト」を整えることに専念します。
 
@@ -63,7 +63,6 @@ Vue Router（またはNuxt）のマッピング先となる、各画面のルー
 ## 【開発者向け】コンポーネントの置き場所に迷ったら？
 
 新しいコンポーネントを作る際、どこに置くべきかは以下のフローで判断してください。
-
 
 ```mermaid
 flowchart TD
@@ -88,8 +87,9 @@ flowchart TD
 
 **Q. `ColorSelector.vue` はどこ？**
 **A. 仕様（文脈）によって変わります。**
-* 単にカラーコードの配列を受け取って、選ばれた色を `emit` するだけの汎用的なUIパーツなら ──> `components/common/ColorSelector.vue`
-* 「選択された商品の在庫のある色をAPIから取得して表示する」ようなビジネスロジックを含むなら ──> `features/product/components/ColorSelector.vue`
+
+- 単にカラーコードの配列を受け取って、選ばれた色を `emit` するだけの汎用的なUIパーツなら ──> `components/common/ColorSelector.vue`
+- 「選択された商品の在庫のある色をAPIから取得して表示する」ようなビジネスロジックを含むなら ──> `features/product/components/ColorSelector.vue`
 
 **Q. `FileUploadArea.vue`（ドラッグ＆ドロップ領域）はどこ？**
 **A. `components/form/FileUploadArea.vue` に置きます（汎用UI）。**

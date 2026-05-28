@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { Sun, Moon } from '@lucide/vue'
-import { useThemeStore } from '@/stores/theme'
-import { watchEffect } from 'vue'
+import { Sun, Moon } from '@lucide/vue';
+import { useThemeStore } from '@/stores/theme';
+import { watchEffect } from 'vue';
 
-const themeStore = useThemeStore()
+const themeStore = useThemeStore();
 
 const toggleTheme = () => {
-  themeStore.toggleDark()
-}
+  themeStore.toggleDark();
+};
 
 watchEffect(() => {
-  document.documentElement.setAttribute('data-theme', themeStore.currentTheme)
-  localStorage.setItem('theme', themeStore.currentTheme)
-})
+  document.documentElement.setAttribute('data-theme', themeStore.currentTheme);
+  localStorage.setItem('theme', themeStore.currentTheme);
+});
 </script>
 
 <template>

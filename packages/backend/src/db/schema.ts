@@ -1,1 +1,1 @@
-export * from '../infrastructure/database/schema'
+export * from '../infrastructure/database/schema';

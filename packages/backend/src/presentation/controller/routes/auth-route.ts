@@ -1,7 +1,7 @@
-import type { Hono } from 'hono'
+import type { Hono } from 'hono';
 
 export interface RegisterAuthRouteOptions {
-  authHandler: (request: Request) => Response | Promise<Response>
+  authHandler: (request: Request) => Response | Promise<Response>;
 }
 
 /**
@@ -13,6 +13,6 @@ export const registerAuthRoute = (
   options: RegisterAuthRouteOptions,
 ) => {
   app.on(['POST', 'GET'], '/api/auth/**', (c) => {
-    return options.authHandler(c.req.raw)
-  })
-}
+    return options.authHandler(c.req.raw);
+  });
+};

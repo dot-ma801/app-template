@@ -19,10 +19,22 @@
       </div>
 
       <button @click="handleSubmit" :disabled="loading">
-        {{ loading ? (isSignInMode ? 'ログイン中...' : '登録中...') : (isSignInMode ? 'ログイン' : '新規登録') }}
+        {{
+          loading
+            ? isSignInMode
+              ? 'ログイン中...'
+              : '登録中...'
+            : isSignInMode
+              ? 'ログイン'
+              : '新規登録'
+        }}
       </button>
 
-      <button @click="handleGoogleSignIn" :disabled="loading" class="google-btn">
+      <button
+        @click="handleGoogleSignIn"
+        :disabled="loading"
+        class="google-btn"
+      >
         Google でログイン
       </button>
 
@@ -36,27 +48,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import { authClient, signIn, signUp } from '@/lib/auth'
+import { computed, ref } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { authClient, signIn, signUp } from '@/lib/auth';
 
-const authStore = useAuthStore()
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const error = ref('')
-const mode = ref<'signin' | 'signup'>('signin')
+const authStore = useAuthStore();
+const email = ref('');
+const password = ref('');
+const loading = ref(false);
+const error = ref('');
+const mode = ref<'signin' | 'signup'>('signin');
 
-const isSignInMode = computed(() => mode.value === 'signin')
+const isSignInMode = computed(() => mode.value === 'signin');
 
 const toggleMode = () => {
-  mode.value = isSignInMode.value ? 'signup' : 'signin'
-  error.value = ''
-}
+  mode.value = isSignInMode.value ? 'signup' : 'signin';
+  error.value = '';
+};
 
 const handleSubmit = async () => {
-  loading.value = true
-  error.value = ''
+  loading.value = true;
+  error.value = '';
 
   try {
     const result = isSignInMode.value
@@ -68,43 +80,45 @@ const handleSubmit = async () => {
           name: email.value,
           email: email.value,
           password: password.value,
-        })
+        });
 
     if (result) {
-      await authStore.initSession()
+      await authStore.initSession();
     }
   } catch (err) {
-    error.value = err instanceof Error
-      ? err.message
-      : isSignInMode.value
-        ? 'ログインに失敗しました'
-        : '新規登録に失敗しました'
+    error.value =
+      err instanceof Error
+        ? err.message
+        : isSignInMode.value
+          ? 'ログインに失敗しました'
+          : '新規登録に失敗しました';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const handleGoogleSignIn = async () => {
-  loading.value = true
-  error.value = ''
+  loading.value = true;
+  error.value = '';
 
   try {
     await authClient.signIn.social({
       provider: 'google',
       callbackURL: `${window.location.origin}/auth/callback`,
-    })
+    });
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Google ログインに失敗しました'
+    error.value =
+      err instanceof Error ? err.message : 'Google ログインに失敗しました';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 const handleLogout = async () => {
-  await authStore.logout()
-}
+  await authStore.logout();
+};
 
-authStore.initSession()
+authStore.initSession();
 </script>
 
 <style scoped>

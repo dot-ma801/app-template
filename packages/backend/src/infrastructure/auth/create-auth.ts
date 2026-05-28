@@ -1,15 +1,15 @@
-import { betterAuth } from 'better-auth'
-import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import type { Database } from '../database/client'
-import * as schema from '../database/schema'
+import { betterAuth } from 'better-auth';
+import { drizzleAdapter } from 'better-auth/adapters/drizzle';
+import type { Database } from '../database/client';
+import * as schema from '../database/schema';
 
 export interface CreateAuthOptions {
-  db: Database
-  secret: string
-  baseURL: string
-  trustedOrigin: string
-  googleClientId?: string
-  googleClientSecret?: string
+  db: Database;
+  secret: string;
+  baseURL: string;
+  trustedOrigin: string;
+  googleClientId?: string;
+  googleClientSecret?: string;
 }
 
 /**
@@ -17,11 +17,13 @@ export interface CreateAuthOptions {
  * 外部依存はここに閉じ込め、上位層はハンドラだけを扱えるようにします。
  */
 export const createAuth = (options: CreateAuthOptions) => {
-  const hasGoogleClientId = options.googleClientId !== undefined
-  const hasGoogleClientSecret = options.googleClientSecret !== undefined
+  const hasGoogleClientId = options.googleClientId !== undefined;
+  const hasGoogleClientSecret = options.googleClientSecret !== undefined;
 
   if (hasGoogleClientId !== hasGoogleClientSecret) {
-    throw new Error('Both googleClientId and googleClientSecret must be provided together')
+    throw new Error(
+      'Both googleClientId and googleClientSecret must be provided together',
+    );
   }
 
   const socialProviders = hasGoogleClientId
@@ -33,7 +35,7 @@ export const createAuth = (options: CreateAuthOptions) => {
           scope: ['openid', 'email'],
         },
       }
-    : {}
+    : {};
 
   return betterAuth({
     database: drizzleAdapter(options.db, {
@@ -49,5 +51,5 @@ export const createAuth = (options: CreateAuthOptions) => {
     trustedOrigins: [options.trustedOrigin],
     plugins: [],
     socialProviders,
-  })
-}
+  });
+};

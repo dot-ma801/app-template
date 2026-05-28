@@ -14,7 +14,11 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint:eslint": "eslint . --fix --cache",
+    "lint:oxlint": "oxlint . --fix",
+    "lint": "pnpm run lint:eslint && pnpm run lint:oxlint",
+    "format": "prettier --write . --config prettier.config.mjs --ignore-path .prettierignore",
+    "test": "echo \"Error: no test specified\""
   },
   "keywords": [],
   "author": "",
@@ -23,6 +27,11 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "typescript": "^6.0.3"
+    "eslint": "^10.0.3",
+    "eslint-config-prettier": "^10.1.8",
+    "oxlint": "~1.50.0",
+    "prettier": "3.8.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.60.0"
   }
 }

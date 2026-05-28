@@ -1,13 +1,13 @@
-import 'dotenv/config'
-import { serve } from '@hono/node-server'
-import { fileURLToPath } from 'node:url'
-import { createApp } from './presentation/controller/create-app'
-import { createAuth } from './infrastructure/auth/create-auth'
-import { createDatabase } from './infrastructure/database/client'
-import { loadBackendConfig } from './infrastructure/config/env'
+import 'dotenv/config';
+import { serve } from '@hono/node-server';
+import { fileURLToPath } from 'node:url';
+import { createApp } from './presentation/controller/create-app';
+import { createAuth } from './infrastructure/auth/create-auth';
+import { createDatabase } from './infrastructure/database/client';
+import { loadBackendConfig } from './infrastructure/config/env';
 
-const config = loadBackendConfig(process.env)
-const db = createDatabase(config.databaseUrl)
+const config = loadBackendConfig(process.env);
+const db = createDatabase(config.databaseUrl);
 const auth = createAuth({
   db,
   secret: config.betterAuthSecret,
@@ -15,16 +15,16 @@ const auth = createAuth({
   trustedOrigin: config.frontendOrigin,
   googleClientId: config.googleClientId,
   googleClientSecret: config.googleClientSecret,
-})
+});
 
 const app = createApp({
   frontendOrigin: config.frontendOrigin,
   authHandler: (request) => auth.handler(request),
-})
+});
 
-export default app
+export default app;
 
-const isDirectExecution = process.argv[1] === fileURLToPath(import.meta.url)
+const isDirectExecution = process.argv[1] === fileURLToPath(import.meta.url);
 
 if (isDirectExecution) {
   serve(
@@ -33,7 +33,7 @@ if (isDirectExecution) {
       port: config.port,
     },
     (info) => {
-      console.log(`Server is running on http://localhost:${info.port}`)
+      console.log(`Server is running on http://localhost:${info.port}`);
     },
-  )
+  );
 }
