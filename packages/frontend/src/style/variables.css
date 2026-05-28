@@ -1,6 +1,6 @@
 :root {
   --font-family-base:
-    'Fira Code', 'Fira Mono', source-code-pro, Menlo, Monaco, Consolas,
+    'Fira Code', 'Fira Mono', source-code-pro, 'Menlo', 'Monaco', 'Consolas',
     'Courier New', monospace;
   --font-size-base: 16px;
 
